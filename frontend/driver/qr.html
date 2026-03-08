@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your QR Code - Smart Parking</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        h2 { color: #1f2937; margin-bottom: 0.5rem; }
+        p { color: #6b7280; margin-bottom: 1.5rem; }
+        #qr-container {
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        #qr-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .info {
+            background: #eff6ff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        .info-label { color: #6b7280; }
+        .info-value { font-weight: 600; color: #1f2937; }
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            margin: 0.25rem;
+        }
+        .btn-secondary { background: #6b7280; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🎫 Your Parking Ticket</h2>
+        <p>Show this QR code at the entry gate</p>
+        
+        <div id="qr-container">
+            <img id="qr-image" alt="QR Code">
+        </div>
+        
+        <div class="info">
+            <div class="info-row">
+                <span class="info-label">Reservation ID:</span>
+                <span class="info-value" id="res-id">-</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Valid Until:</span>
+                <span class="info-value" id="valid-until">-</span>
+            </div>
+        </div>
+        
+        <a href="index.html" class="btn">Find More Parking</a>
+        <a href="#" onclick="downloadQR()" class="btn btn-secondary">Download</a>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const resId = params.get('res_id');
+        const qrData = params.get('qr');
+        
+        document.getElementById('res-id').textContent = resId;
+        document.getElementById('qr-image').src = `data:image/png;base64,${qrData}`;
+        
+        // Set valid until (2 hours from now for demo)
+        const validUntil = new Date(Date.now() + 2*60*60*1000);
+        document.getElementById('valid-until').textContent = validUntil.toLocaleString();
+        
+        function downloadQR() {
+            const link = document.createElement('a');
+            link.download = `parking-ticket-${resId}.png`;
+            link.href = document.getElementById('qr-image').src;
+            link.click();
+        }
+    </script>
+</body>
+</html>

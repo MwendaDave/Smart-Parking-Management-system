@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Parking - Driver</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+</head>
+<body>
+    <header class="header">
+        <h1>🚗 Smart Parking</h1>
+        <div class="user-menu">
+            <span id="user-name">Welcome</span>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="search-section">
+            <h2>Find Available Parking</h2>
+            <div class="search-box">
+                <input type="text" id="location-search" placeholder="Enter location">
+                <button onclick="searchParking()">Search</button>
+                <button onclick="loadParkingSlots()">Refresh</button>
+            </div>
+        </section>
+
+        <div id="error-message" class="error hidden"></div>
+        <div id="loading" class="loading hidden">Loading...</div>
+
+        <section class="results-section">
+            <div id="parking-list" class="parking-grid"></div>
+            <div id="map" class="map-container"></div>
+        </section>
+
+        <!-- Reservation Modal -->
+        <div id="reservation-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h3>Confirm Reservation</h3>
+                <div id="reservation-details"></div>
+                <div class="form-group">
+                    <label>Duration (hours):</label>
+                    <input type="number" id="duration" value="1" min="1" max="24">
+                </div>
+                <button onclick="confirmReservation()" class="btn-primary">Reserve Now</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
